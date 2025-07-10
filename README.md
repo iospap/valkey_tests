@@ -4,14 +4,14 @@ A test suite for validating Valkey client interactions, including publishing, su
 
 ## Table of Contents
 
-- [Overview](#Overview)
-- [Features](#Features)
-- [Requirements](#Requirements)
-- [Installation](#Installation)
-- [Configuration](#Configuration)
-- [Usage](#Usage)
-- [Contributing](#Contributing)
-- [License](#License)
+- [Overview](#overview)
+- [Features](#features)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
 
 ---
 
@@ -49,7 +49,7 @@ This repository provides a suite of tests to validate the functionality of the V
    ```bash
    .env/bin/python -m pip install -r requirements.txt
 
-
+---
 
 ## 🛠️ Configuration
 
@@ -74,6 +74,7 @@ subscribe:
 
 ```
 
+---
 
 ## 🚀 Usage
 
@@ -91,6 +92,8 @@ Subscribe
     python subscribe.py
   ```
 
+---
+
 ## 🤝 Contributing
 Contributions are welcome! To contribute:
 
@@ -102,6 +105,7 @@ Write tests or improve existing ones
 
 Submit a pull request for review
 
+---
 
 ## 📄 License
 This project is distributed under the GNU General Public License v3.0
