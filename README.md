@@ -5,7 +5,6 @@ A test suite for validating Valkey client interactions, including publishing, su
 ## Table of Contents
 
 - [Overview](#-overview)
-- [Features](#-features)
 - [Requirements](#-requirements)
 - [Installation](#%EF%B8%8F-installation)
 - [Configuration](#-configuration)
