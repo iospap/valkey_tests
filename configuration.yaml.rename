@@ -1,0 +1,21 @@
+###################  CONFIGURATION  ###################################################
+connection:
+  host: "" 
+  port: 0
+  user: ""
+  password: ""
+
+subscription:
+  # set one of the following variables: 
+  pattern: "" # like test* will subscribe to all channels that starts with test
+  channels: [] # a list of channels to subscribe
+
+publish:
+  channel: "test" # channel where to publish the below message
+  message: {
+        "message": "Hello from publisher!",
+        "status": "success",
+        "code": 200,
+        "timestamp": "2009-07-23T12:30:00Z",
+        "details": {"user": "publisher", "action": "publish"},
+    }

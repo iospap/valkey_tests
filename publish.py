@@ -1,36 +1,76 @@
-import asyncio
+import json
+from logging.handlers import RotatingFileHandler
 import ssl
 from valkey import Valkey, UsernamePasswordCredentialProvider
+import logging
 
-from config import CHANNEL, HOST, MESSAGE, PASS, PORT, USER
+from config import load_configuration_file
 
 
-async def publish():
-    """Publish a message to a Redis channel."""
-    crdent = UsernamePasswordCredentialProvider(username=USER, password=PASS)
+# LOG RELATED ##################################3
+logger = logging.getLogger("publish")
+logger.setLevel(logging.DEBUG)
+
+# Create a file handler and set its level to DEBUG
+file_handler = RotatingFileHandler(
+    "publish.log",
+    mode="a",
+    maxBytes=5 * 1024 * 1024,
+    backupCount=10,
+    encoding=None,
+    delay=0,
+)
+file_handler.setLevel(logging.DEBUG)
+
+# Create a console handler and set its level to INFO
+console_handler = logging.StreamHandler()
+console_handler.setLevel(logging.INFO)
+
+# Create a formatter and set it for both handlers
+formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+file_handler.setFormatter(formatter)
+console_handler.setFormatter(formatter)
+
+# Add the handlers to the logger
+logger.addHandler(file_handler)
+logger.addHandler(console_handler)
+
+
+# load configuration
+CFG = load_configuration_file()
+
+
+def publish():
+    """Publish a message"""
 
     client = Valkey(
-        host=HOST,
-        port=PORT,
+        host=CFG.connection.host,
+        port=CFG.connection.port,
         ssl=True,
         ssl_cert_reqs=ssl.CERT_NONE,
-        credential_provider=crdent,
+        credential_provider=UsernamePasswordCredentialProvider(
+            username=CFG.connection.user, password=CFG.connection.password
+        ),
     )
 
-    # Ensure the message is a JSON string
-    message_str = str(MESSAGE)  # Convert dict to string representation
+    # Convert to string
+    message_str = json.dumps(
+        CFG.publish.message
+    )  # Convert dict to string representation
 
-    # Publish a message to the 'gamma_oo' channel
+    # Publish
     response = client.publish(
-        CHANNEL,
+        CFG.publish.channel,
         message_str,  # JSON object as a string
-        encoding="utf-8",  # Specify the encoding for the message
+        # encoding="utf-8",  # Specify the encoding for the message
     )
-    if not response:
-        print("Failed to publish message.")
+
+    # log result
+    if response == 0:
+        logger.info(f"Published message, but no subscribers received it on {CFG.publish.channel}")
     else:
-        print("Message published successfully.")
+        logger.info(f"Message published to {CFG.publish.channel}, received by {response} subscribers")
 
 
 # Run the publish function
-asyncio.run(publish())
+publish()

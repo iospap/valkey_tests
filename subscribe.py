@@ -6,15 +6,14 @@ from valkey import Valkey, UsernamePasswordCredentialProvider, ConnectionError
 from valkey.client import PubSub
 import logging
 
-from config import CHANNELS, HOST, PASS, PATTERN, PORT, USER
+from config import load_configuration_file
 
 
-# LOG RELAGTED ##################################3
+# LOG RELATED ##################################3
 logger = logging.getLogger("subscribe")
 logger.setLevel(logging.DEBUG)
 
 # Create a file handler and set its level to DEBUG
-# file_handler = logging.FileHandler("subscribe.log")
 file_handler = RotatingFileHandler(
     "subscribe.log",
     mode="a",
@@ -39,12 +38,16 @@ logger.addHandler(file_handler)
 logger.addHandler(console_handler)
 
 
+# load configuration
+CFG = load_configuration_file()
+
+
 # HANDLER FOR PSUBSCRIBE
 def my_handler(message):
     logger.debug(" Raw message: %s", message)
     # msg = json.loads(message["data"].decode())
     # logger.debug(msg)
-    logger.info(f"Message received in channel:{message['channel'].decode()}")
+    logger.info(f"Message received in channel-> {message['channel'].decode()}")
 
 
 # LOG MESSAGES
@@ -79,24 +82,25 @@ def subscriber_loop(pubsub: PubSub):
 
 #
 def main():
-    crdent = UsernamePasswordCredentialProvider(username=USER, password=PASS)
 
     client = Valkey(
-        host=HOST,
-        port=PORT,
+        host=CFG.connection.host,
+        port=CFG.connection.port,
         ssl=True,
         ssl_cert_reqs=ssl.CERT_NONE,
-        credential_provider=crdent,
+        credential_provider=UsernamePasswordCredentialProvider(
+            username=CFG.connection.user, password=CFG.connection.password
+        ),
         socket_keepalive=True,
     )
     pubsub = client.pubsub()
 
-    if PATTERN:
+    if CFG.subscription.pattern:
         # use psubscribe and handler
         pubsub.psubscribe(**{"gamma*": my_handler})
-    elif CHANNELS:
+    elif CFG.subscription.channels:
         # use subscribe without handlers
-        pubsub.subscribe(CHANNELS)
+        pubsub.subscribe(CFG.subscription.channels)
     else:
         logger.error(" Either PATTERN or CHANNELS must be set in the CONFIGURATION")
         return
