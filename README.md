@@ -4,14 +4,14 @@ A test suite for validating Valkey client interactions, including publishing, su
 
 ## Table of Contents
 
-- [Overview](#overview)
-- [Features](#features)
-- [Requirements](#requirements)
-- [Installation](#installation)
-- [Configuration](#configuration)
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
+- [Overview](#-overview)
+- [Features](#-features)
+- [Requirements](#-requirements)
+- [Installation](#%EF%B8%8F-installation)
+- [Configuration](#-configuration)
+- [Usage](#-usage)
+- [Contributing](#-contributing)
+- [License](#-license)
 
 ---
 
@@ -40,14 +40,17 @@ This repository provides a suite of tests to validate the functionality of the V
    ```bash
    git clone https://github.com/iospap/valkey_tests.git
    cd valkey_tests
+   ```
 
 2. Create environment:
    ```bash
    python3 -m venv .env
+   ```
 
 3. Install requirements
    ```bash
    .env/bin/python -m pip install -r requirements.txt
+   ```
 
 ---
 
