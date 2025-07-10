@@ -4,14 +4,14 @@ A test suite for validating Valkey client interactions, including publishing, su
 
 ## Table of Contents
 
-- [Overview](#overview)
-- [Features](#features)
-- [Requirements](#requirements)
-- [Installation](#installation)
-- [Configuration](#configuration)
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
+- [Overview](#Overview)
+- [Features](#Features)
+- [Requirements](#Requirements)
+- [Installation](#Installation)
+- [Configuration](#Configuration)
+- [Usage](#Usage)
+- [Contributing](#Contributing)
+- [License](#License)
 
 ---
 
